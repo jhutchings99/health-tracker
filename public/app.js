@@ -129,7 +129,7 @@ var app = new Vue({
                 // DRAW WEIGHT CHART
                 setTimeout(() => {
                     this.createWeightChart();
-                }, 500);
+                }, 100);
                 
             }
         },
@@ -194,6 +194,11 @@ var app = new Vue({
 
                 // RESET LOGIN FORM
                 this.$refs.form.resetValidation()
+
+                // DRAW WEIGHT CHART
+                setTimeout(() => {
+                    this.createWeightChart();
+                }, 100);
             }
             else if (response.status == 400 || response.status == 401){
                 console.log("Invalid credentials");
