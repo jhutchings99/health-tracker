@@ -1,5 +1,6 @@
 // URL
-const URL = "https://health-tracker-web-app.herokuapp.com";
+// const URL = "https://health-tracker-web-app.herokuapp.com";
+const URL = "http://localhost:8080";
 
 // VUE 2 APP
 var app = new Vue({
@@ -65,6 +66,9 @@ var app = new Vue({
         heightInchesBMR: "",
         genderSelect: "",
         activitySelect: "",
+
+        // ERROR VARIABLE
+        errorMessage: "",
     },
     methods: {
         // MATCH PASSWORDS FUNCTION
@@ -206,6 +210,13 @@ var app = new Vue({
                 this.currentUserName = data.name;
                 this.currentUserAge = data.age;
                 this.currentUserWeights = data.weights;
+
+                if (this.currentUserWeights.length === 0) {
+                    this.currentUserWeights.push({
+                        date: new Date().toLocaleDateString(),
+                        weight: "0",
+                    });
+                }
             } else {
                 console.log("Error getting user:", response.status);
             }
@@ -340,7 +351,15 @@ var app = new Vue({
                     this.bmr = Math.floor(femaleTempBmr);
                 }
             }
+        },
 
+        // SET ERROR MESSAGE FUNCTION
+        setErrorMessage: function (message) {
+            this.errorMessage = message;
+
+            setTimeout(() => {
+                this.errorMessage = "";
+            }, 3000);
         }
         
     },

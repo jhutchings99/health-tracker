@@ -149,6 +149,7 @@
 
 .bmi-calculator {
   width: 800px;
+  text-align: center;
 }
 
 .bmi-input {
@@ -259,6 +260,7 @@ th {
 
 .bmr-calculator {
   width: 1000px;
+  text-align: center;
 }
 
 .bmr-input {
@@ -352,6 +354,13 @@ th {
   align-items: center;
   width: 100%;
   flex-direction: column;
+}
+
+.error-message {
+  color: #FF6961;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 /* MEDIA QUERIES */

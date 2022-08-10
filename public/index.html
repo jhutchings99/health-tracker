@@ -151,12 +151,14 @@
                             <span class="current-weight">{{ currentUserWeights[currentUserWeights.length - 1].weight }}</span>
                         </div>
 
-                        <input type="number" placeholder="Enter New Weight" v-model="newWeight" class="weight-input"><button @click="postNewWeight()" class="weight-submit">Submit New Weight</button>
+                        <input type="number" placeholder="Enter New Weight" v-model="newWeight" class="weight-input">
+                        <button @click="[newWeight !== '' ? postNewWeight() : setErrorMessage('You must enter a weight before submitting')]" class="weight-submit">Submit New Weight</button>
+                        <span class="error-message" v-if="errorMessage === 'You must enter a weight before submitting'">{{ errorMessage }}</span>
 
                         <canvas id="weightChart"></canvas>
 
                         <div class="previous-weights-wrapper">
-                            <h1 class="previous-weights-title">Weight History</h1>
+                            <h1 class="previous-weights-title" v-show="currentUserWeights.length > 1">Weight History</h1>
                             <div>
                                 <ul>
                                     <li class="weight-list" v-for="(weight, index) in weightList" :key="index + 1" v-if="currentUserWeights.length > 0" v-bind:style= "[index % 2 == 0 ? {backgroundColor: 'white', color: '#1d3557'} : {backgroundColor: '#1d3557', color: 'white'}]">
@@ -173,7 +175,8 @@
                                 <div class="bmi-inputs-wrapper">
                                     <input type="number" placeholder="feet" class="bmi-input" v-model="heightFeet"><input type="number" placeholder="inches" class="bmi-input" v-model="heightInches"><input type="number" placeholder="weight" class="bmi-input" v-bind:value= "[currentUserWeights.length > 0 ? currentUserWeights[currentUserWeights.length - 1].weight : null]">
                                 </div>
-                                <button class="bmi-button" @click="calculateBmi(currentUserWeights[currentUserWeights.length - 1].weight, heightFeet, heightInches)">Calculate BMI</button>
+                                <button class="bmi-button" @click="[heightFeet && heightInches ? calculateBmi(currentUserWeights[currentUserWeights.length - 1].weight, heightFeet, heightInches) : setErrorMessage('You must enter your height before submitting')]">Calculate BMI</button>
+                                <span class="error-message" v-if="errorMessage === 'You must enter your height before submitting'">{{ errorMessage }}</span>
                             </div>
                             <div class="bmi-info">
                                 <span class="bmi-text">Your BMI is <span v-if="bmi === ''">00.00</span><span v-bind:style="setTextColor">{{ bmi }}</span></span>
@@ -230,7 +233,8 @@
                                         <input type="number" placeholder="age" class="bmr-input" :value="currentUserAge">
                                     </div>
                                 </div>
-                                <button class="bmr-button" @click="calculateBmr(currentUserWeights[currentUserWeights.length - 1].weight, heightFeetBMR, heightInchesBMR, activitySelect, genderSelect)">Calculate BMR</button>
+                                <button class="bmr-button" @click="[heightFeetBMR && heightInchesBMR && genderSelect ? calculateBmr(currentUserWeights[currentUserWeights.length - 1].weight, heightFeetBMR, heightInchesBMR, activitySelect, genderSelect) : setErrorMessage('You must enter your height and gender before submitting')]">Calculate BMR</button>
+                                <span class="error-message" v-if="errorMessage === 'You must enter your height and gender before submitting'">{{ errorMessage }}</span>
                             </div>
                             <div class="bmr-info">
                                 <span class="bmr-text">Your BMR is <span v-if="bmr === ''">0000 Calories/day</span><span v-if="bmr !== ''">{{ bmr }} Calories/day</span></span>

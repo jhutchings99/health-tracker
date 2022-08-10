@@ -10,6 +10,12 @@ app.use(express.json());
 // SERVER UI TO BACKEND
 app.use(express.static(`${__dirname}/public`));
 
+// PULL IN CORS
+const cors = require("cors");
+
+// TELL EXPRESS TO USE CORS
+app.use(cors());
+
 // PULL IN USER MODEL
 const { User } = require("./persist/model");
 
