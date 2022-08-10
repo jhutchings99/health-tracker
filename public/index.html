@@ -100,7 +100,7 @@
         <section id="weight-page" v-show="currentPage === 'weight'">
             <v-app>
                 <v-main>
-                    <template v-if="!$vuetify.breakpoint.xsOnly">
+                    <template v-if="!$vuetify.breakpoint.smOnly">
                         <div>
                           <v-app-bar color="#1d3557" light fixed>
                             <v-toolbar-title :style="{ color: '#f1faee', fontSize: '2rem' }" class="ma-4">
@@ -120,7 +120,7 @@
                         </div>
                     </template>
                     <!-- MOBILE NAV -->
-                    <template v-if="$vuetify.breakpoint.xsOnly">
+                    <template v-if="$vuetify.breakpoint.smOnly">
                         <div>
                           <v-app-bar color="#1d3557" light fixed>
                             <v-toolbar-title :style="{ color: '#f1faee', fontSize: '1.5rem' }" class="ma-4">
@@ -249,7 +249,7 @@
         <section id="workout-page" v-show="currentPage === 'workout'">
             <v-app>
                 <v-main>
-                    <template v-if="!$vuetify.breakpoint.xsOnly">
+                    <template v-if="!$vuetify.breakpoint.smOnly">
                         <div>
                           <v-app-bar
                             color="#1d3557"
@@ -276,7 +276,7 @@
                         </div>
                     </template>
                     <!-- MOBILE NAV -->
-                    <template v-if="$vuetify.breakpoint.xsOnly">
+                    <template v-if="$vuetify.breakpoint.smOnly">
                         <div>
                           <v-app-bar color="#1d3557" light fixed>
                             <v-toolbar-title :style="{ color: '#f1faee', fontSize: '1.5rem' }" class="ma-4">
