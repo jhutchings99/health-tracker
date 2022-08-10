@@ -1,6 +1,6 @@
 // URL
-// const URL = "https://health-tracker-web-app.herokuapp.com";
-const URL = "http://localhost:8080";
+const URL = "https://health-tracker-web-app.herokuapp.com";
+// const URL = "http://localhost:8080";
 
 // VUE 2 APP
 var app = new Vue({
