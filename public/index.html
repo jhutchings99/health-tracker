@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- VUE 2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js" defer></script>
+
+    <!-- VUETIFY CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js" defer></script>
+
+    <!-- MATERIAL DESIGN ICONS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <!-- VUETIFY STYLE CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+    <!-- PULL IN CHART.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" defer></script>
+
+    <!-- LINK TO MAIN JS FILE -->
+    <script src="app.js" defer></script>
+
+    <!-- LINK TO CSS STYLESHEET -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- FAVICONS -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+
+    <!-- GOOGLE FONT (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"> 
+    <title>Weight Tracker</title>
+</head>
+<body>
+    <!-- VUE 2 APP -->
+    <div id="app">
+        <!-- LOGIN USER FORM -->
+        <section id="login-page" v-show="currentPage === 'login'">
+            <v-app>
+                <v-main>
+                    <template>
+                        <v-card class="mx-auto" max-width="344" outlined>
+                            <v-list-item three-line>
+                                <v-list-item-content>
+                                    <div class="mb-4 text-center text-h5" :style="{ color: '#fb8500'}">
+                                        LOGIN
+                                    </div>
+                                    <v-form ref="form">
+                                        <v-text-field v-model="loginEmail" label="Email" type="text" :rules="emailRules" required></v-text-field>
+                                        <v-text-field v-model="loginPassword" label="Password" type="password" :append-icon="loginPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"  :type="loginPasswordShow ? 'text' : 'password'" @click:append="loginPasswordShow = !loginPasswordShow" required></v-text-field>
+                                    </v-form>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-card-actions class="d-flex justify-center justify-space-around">
+                                <v-btn outlined rounded text @click="setPage('register')">Create New User</v-btn>
+                                <v-btn outlined rounded text @click="loginUser()">Login</v-btn> 
+                            </v-card-actions>
+                        </v-card>
+                    </template>
+                </v-main>
+            </v-app>
+        </section>
+
+        <!-- REGISER USER FORM -->
+        <section id="register-page" v-show="currentPage === 'register'">
+            <v-app>
+                <v-main>
+                    <template>
+                        <v-card class="mx-auto" max-width="344" outlined>
+                            <v-list-item three-line>
+                                <v-list-item-content>
+                                    <div class="mb-4 text-center text-h5" :style="{ color: '#fb8500'}">
+                                        REGISTER
+                                    </div>
+                                    <v-form ref="form">
+                                        <v-text-field v-model="registerEmail" label="Email" type="text" :rules="emailRules" required></v-text-field>
+                                        <v-text-field v-model="registerUsername" label="Username" type="text" :rules="usernameRules" required></v-text-field>
+                                        <v-text-field v-model="registerPassword" label="Password" type="password" :rules="passwordRules"  :append-icon="registerPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"  :type="registerPasswordShow ? 'text' : 'password'" @click:append="registerPasswordShow = !registerPasswordShow" required></v-text-field>
+                                        <v-text-field v-model="registerConfirmPassword" label="Confirm Password" type="password" :rules="[matchPasswords]"  :append-icon="confirmPasswordShow ? 'mdi-eye' : 'mdi-eye-off'" :type="confirmPasswordShow ? 'text' : 'password'" @click:append="confirmPasswordShow = !confirmPasswordShow" required></v-text-field>
+                                        <v-select v-model="registerAge" :items="ageList" :rules="[v => !!v || 'Age is required']" label="Age" required></v-select>
+                                    </v-form>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-card-actions class="d-flex justify-center justify-space-around">
+                                <v-btn outlined rounded text @click="setPage('login')">Back to Login</v-btn>
+                                <v-btn outlined rounded text @click="createUser()">Register</v-btn> 
+                            </v-card-actions>
+                        </v-card>
+                    </template>
+                </v-main>
+            </v-app>
+        </section>
+
+        <!-- HOME PAGE -->
+        <section id="weight-page" v-show="currentPage === 'weight'">
+            <v-app>
+                <v-main>
+                    <template v-if="!$vuetify.breakpoint.xsOnly">
+                        <div>
+                          <v-app-bar color="#1d3557" light fixed>
+                            <v-toolbar-title :style="{ color: '#f1faee', fontSize: '2rem' }" class="ma-4">
+                                <v-icon color="white" :style="{ color: '#f1faee', fontSize: '2rem' }">mdi-dumbbell</v-icon>
+                                Health Tracker
+                            </v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-btn class="ma-4" @click="currentPage = 'weight'">
+                                Weight Tracker
+                              <v-icon>mdi-scale-bathroom</v-icon>
+                            </v-btn>
+                            <v-btn class="ma-4" @click="currentPage = 'workout'">
+                                Workout Tracker
+                              <v-icon>mdi-weight-lifter</v-icon>
+                            </v-btn>
+                          </v-app-bar>
+                        </div>
+                    </template>
+                    <!-- MOBILE NAV -->
+                    <template v-if="$vuetify.breakpoint.xsOnly">
+                        <div>
+                          <v-app-bar color="#1d3557" light fixed>
+                            <v-toolbar-title :style="{ color: '#f1faee', fontSize: '1.5rem' }" class="ma-4">
+                                <v-icon color="white" :style="{ color: '#f1faee', fontSize: '1.5rem' }">mdi-dumbbell</v-icon>
+                                Health Tracker
+                            </v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
+                            <v-navigation-drawer v-model="drawer" absolute  height="100vh" width="100vw">
+                                <v-icon  @click.stop="drawer = !drawer" class="float-right ma-5 black--text">mdi-window-close</v-icon>
+                                <div class="mobile-nav-buttons">
+                                    <v-btn class="ma-4" @click="currentPage = 'weight', drawer = !drawer">
+                                        Weight Tracker
+                                    <v-icon>mdi-scale-bathroom</v-icon>
+                                    </v-btn>
+                                    <v-btn class="ma-4" @click="currentPage = 'workout', drawer = !drawer">
+                                        Workout Tracker
+                                    <v-icon>mdi-weight-lifter</v-icon>
+                                </div>
+                            </v-navigation-drawer>
+                          </v-app-bar>
+                        </div>
+                    </template>
+                    <div class="weight-page-content-wrapper">
+                        <h1 class="welcome-text">hello, {{ currentUserName }}</h1>
+                        <div v-if="currentUserWeights.length > 0" class="current-weight-circle">
+                            <span class="current-weight-text">Current Weight</span><br>
+                            <span class="current-weight">{{ currentUserWeights[currentUserWeights.length - 1].weight }}</span>
+                        </div>
+
+                        <input type="number" placeholder="Enter New Weight" v-model="newWeight" class="weight-input"><button @click="postNewWeight()" class="weight-submit">Submit New Weight</button>
+
+                        <canvas id="weightChart"></canvas>
+
+                        <div class="previous-weights-wrapper">
+                            <h1 class="previous-weights-title">Weight History</h1>
+                            <div>
+                                <ul>
+                                    <li class="weight-list" v-for="(weight, index) in weightList" :key="index + 1" v-if="currentUserWeights.length > 0" v-bind:style= "[index % 2 == 0 ? {backgroundColor: 'white', color: '#1d3557'} : {backgroundColor: '#1d3557', color: 'white'}]">
+                                        <span class="weight">{{ weight.weight }}lbs.</span>
+                                        <small>{{ weight.date }}</small>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bmi-calculator-wrapper">
+                            <h1 class="bmi-title">BMI Calculator</h1>
+                            <small class="bmi-sub">Body mass index (BMI) is a measure of body fat based on height and weight</small>
+                            <div class="bmi-calculator">
+                                <div class="bmi-inputs-wrapper">
+                                    <input type="number" placeholder="feet" class="bmi-input" v-model="heightFeet"><input type="number" placeholder="inches" class="bmi-input" v-model="heightInches"><input type="number" placeholder="weight" class="bmi-input" v-bind:value= "[currentUserWeights.length > 0 ? currentUserWeights[currentUserWeights.length - 1].weight : null]">
+                                </div>
+                                <button class="bmi-button" @click="calculateBmi(currentUserWeights[currentUserWeights.length - 1].weight, heightFeet, heightInches)">Calculate BMI</button>
+                            </div>
+                            <div class="bmi-info">
+                                <span class="bmi-text">Your BMI is <span v-if="bmi === ''">00.00</span><span v-bind:style="setTextColor">{{ bmi }}</span></span>
+                                <table>
+                                    <tr class="row">
+                                        <th class="header">BMI</th>
+                                        <th class="header">Status</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="data underweight">≤ 18.4</td>
+                                        <td class="data" v-bind:style="[bmi !== '' && bmi <= 18.4 ? {backgroundColor : '#1d3557', color : 'white'} : {backgroundColor: 'white', color : 'black'} ]">Underweight</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="data normal">18.5 - 24.9</td>
+                                        <td class="data" v-bind:style="[bmi !== '' && bmi >= 18.5 && bmi <= 24.9 ? {backgroundColor : '#1d3557', color : 'white'} : {backgroundColor: 'white', color : 'black'}]">Normal</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="data overweight">25.0 - 39.9</td>
+                                        <td class="data" v-bind:style="[bmi !== '' && bmi >= 25.0 && bmi <= 39.9 ? {backgroundColor : '#1d3557', color : 'white'} : {backgroundColor: 'white', color : 'black'}]"> Overweight</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="data obese">≥ 40.0</td>
+                                        <td class="data" v-bind:style="[bmi !== '' && bmi >= 40.0 ? {backgroundColor : '#1d3557', color : 'white'} : {backgroundColor: 'white', color : 'black'}]"> Obese</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="bmr-calculator-wrapper">
+                            <h1 class="bmr-title">BMR Calculator</h1>
+                            <small class="bmr-sub">Basal metabolic rate (BMR) is a minimum number of calories required for basic functions at rest</small>
+                            <div class="bmr-calculator">
+                                <div class="bmr-inputs-wrapper">
+                                    <div class="bmr-flex">
+                                        <select name="gender-select" class="gender-select" v-model="genderSelect">
+                                            <option value="" disabled selected hidden>Select gender...</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                        <select name="activity-select" class="activity-select" v-model="activitySelect">
+                                            <option value="" disabled selected hidden>Select Activity Level...</option>
+                                            <option value="sedentary">Sedentary - minimal to no exercise</option>
+                                            <option value="lightlyActive">Lightly Active - light exercise one to three days a week</option>
+                                            <option value="moderatelyActive">Moderately Active - moderate exercise three to five days a week</option>
+                                            <option value="veryActive">Very Active - hard exercise six to seven days a week</option>
+                                            <option value="extraActive">Extra Active - very hard exercise six to seven days a week</option>
+                                        </select>
+                                     </div>
+                                     <div class="bmr-flex">
+                                        <input type="number" placeholder="feet" class="bmr-input" v-model="heightFeetBMR">
+                                        <input type="number" placeholder="inches" class="bmr-input" v-model="heightInchesBMR">
+                                    </div>
+                                    <div class="bmr-flex">
+                                        <input type="number" placeholder="weight" class="bmr-input" v-bind:value= "[currentUserWeights.length > 0 ? currentUserWeights[currentUserWeights.length - 1].weight : null]">
+                                        <input type="number" placeholder="age" class="bmr-input" :value="currentUserAge">
+                                    </div>
+                                </div>
+                                <button class="bmr-button" @click="calculateBmr(currentUserWeights[currentUserWeights.length - 1].weight, heightFeetBMR, heightInchesBMR, activitySelect, genderSelect)">Calculate BMR</button>
+                            </div>
+                            <div class="bmr-info">
+                                <span class="bmr-text">Your BMR is <span v-if="bmr === ''">0000 Calories/day</span><span v-if="bmr !== ''">{{ bmr }} Calories/day</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </v-main>
+            </v-app>
+        </section>
+
+        <!-- WORKOUT PAGE -->
+        <section id="workout-page" v-show="currentPage === 'workout'">
+            <v-app>
+                <v-main>
+                    <template>
+                        <div>
+                          <v-app-bar
+                            color="#1d3557"
+                            light
+                          >
+                      
+                            <v-toolbar-title :style="{ color: '#f1faee', fontSize: '2rem' }" class="ma-4">
+                                <v-icon color="white" :style="{ color: '#f1faee', fontSize: '2rem' }">mdi-dumbbell</v-icon>
+                                Health Tracker
+                            </v-toolbar-title>
+                      
+                            <v-spacer></v-spacer>
+                      
+                            <v-btn class="ma-4" @click="currentPage = 'weight'">
+                                Weight Tracker
+                              <v-icon>mdi-scale-bathroom</v-icon>
+                            </v-btn>
+                      
+                            <v-btn class="ma-4" @click="currentPage = 'workout'">
+                                Workout Tracker
+                              <v-icon>mdi-weight-lifter</v-icon>
+                            </v-btn>
+                          </v-app-bar>
+                        </div>
+                    </template>
+                    <div class="workout-page-content-wrapper">
+                        <h1 class="welcome-text">hello, {{ currentUserName }}</h1>
+                        <h3>Max HR: {{ calculateMaxHeartRate(currentUserAge) }} Target HR:{{ calculateTargetHeartRate(currentUserAge) }}</h3>
+                    </div>
+                </v-main>
+            </v-app>
+        </section>
+    </div>
+</body>
+</html>

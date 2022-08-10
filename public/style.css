@@ -1,0 +1,439 @@
+/* CSS RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* WEIGHT TRACKER PAGE */
+
+.weight-page-content-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#weightChart {
+  max-height: 500px;
+  max-width: 1000px;
+}
+
+.welcome-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffb703;
+  text-align: center;
+  margin: 2rem;
+  margin-top: 6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+.current-weight-circle {
+  border: 10px solid #1d3557;
+  text-align: center;
+  height: 400px;
+  width: 400px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+.current-weight-text {
+  font-size: 2rem;
+  font-weight: lighter;
+}
+
+.current-weight {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffb703;
+}
+
+.weight-input {
+  width: 50vw;
+  height: 50px;
+  border: 1px solid #1d3557;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #1d3557;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+.weight-input:focus {
+  outline: solid 2px #1d3557;
+}
+
+.weight-submit {
+  width: 50vw;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #f1faee;
+  padding: 0.5rem;
+  margin: 1rem;
+  background-color: #1d3557;
+}
+
+.weight-submit:hover {
+  background-color: #1d3557;
+  color: #ffb703;
+}
+
+.weight-submit:focus {
+  outline: none;
+}
+
+.weight-submit:active {
+  background-color: #ffb703;
+  color: #1d3557;
+}
+
+.previous-weights-wrapper {
+  margin: 2rem;
+}
+
+.previous-weights-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffb703;
+  text-align: center;
+  margin: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+.weight-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 800px;
+  padding: 1rem;
+}
+
+.weight {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.bmi-calculator-wrapper {
+  margin-bottom: 2rem;
+}
+
+.bmi-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffb703;
+  text-align: center;
+  margin: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+.bmi-sub {
+  font-size: 1rem;
+  color: #1d3557;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.bmi-calculator {
+  width: 800px;
+}
+
+.bmi-input {
+  width: 200px;
+  height: 50px;
+  border: 1px solid #1d3557;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #1d3557;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+.bmi-input:focus {
+  outline: solid 2px #1d3557;
+}
+
+.bmi-button {
+  width: 735px;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #f1faee;
+  padding: 0.5rem;
+  margin: 0px 2rem;
+  background-color: #1d3557;
+}
+
+.bmi-button:hover {
+  background-color: #1d3557;
+  color: #ffb703;
+}
+
+.bmi-inputs-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 800px;
+  padding: 1rem;
+}
+
+.bmi-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.bmi-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 2rem;
+}
+
+.actual-bmi {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffb703;
+}
+
+td,
+th {
+  border: 1px solid black;
+  text-align: center;
+  padding: 8px;
+  width: 200px;
+}
+
+.obese {
+  background-color: #FF6961;
+}
+
+.overweight {
+  background-color: #FFB54C;
+}
+
+.normal {
+  background-color: #8CD47E;
+}
+
+.underweight {
+  background-color: #FFE189;
+}
+
+.bmr-calculator-wrapper {
+  margin-bottom: 2rem;
+}
+
+.bmr-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffb703;
+  text-align: center;
+  margin: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+.bmr-sub {
+  font-size: 1rem;
+  color: #1d3557;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.bmr-calculator {
+  width: 1000px;
+}
+
+.bmr-input {
+  width: 300px;
+  height: 50px;
+  border: 1px solid #1d3557;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #1d3557;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+.bmr-input:focus {
+  outline: solid 2px #1d3557;
+}
+
+.bmr-button {
+  width: 965px;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #f1faee;
+  padding: 0.5rem;
+  margin: 0px 2rem;
+  background-color: #1d3557;
+}
+
+.bmr-button:hover {
+  background-color: #1d3557;
+  color: #ffb703;
+}
+
+.gender-select {
+  width: 300px;
+  height: 50px;
+  border: 1px solid #1d3557;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #1d3557;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+.bmr-inputs-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 800px;
+  padding: 1rem;
+}
+
+.bmr-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.small {
+  font-size: 0.5rem;
+}
+
+.activity-select {
+  width: 300px;
+  height: 50px;
+  border: 1px solid #1d3557;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #1d3557;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+.bmr-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bmr-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 2rem;
+}
+
+.mobile-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 768px) {
+  .current-weight-circle {
+    height: 300px;
+    width: 300px;
+  }
+
+  .weight-input {
+    width: 80vw;
+  }
+
+  .weight-submit {
+    width: 80vw;
+  }
+
+  .previous-weights-title {
+    font-size: 1.5rem;
+  }
+
+  .previous-weight {
+    font-size: 1rem;
+  }
+
+  .weight-list {
+    width: 80vw;
+  }
+
+  .bmi-title {
+    font-size: 1.5rem;
+  }
+
+  .bmi-sub {
+    display: block;
+    width: 80vw;
+    margin: 0px auto;
+    text-align: center;
+  }
+
+  .bmi-inputs-wrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bmi-button {
+    width: 80vw;
+    margin: 0 auto;
+    display: block;
+  }
+
+  td,
+  th {
+    width: 150px;
+  }
+
+  .bmr-title {
+    font-size: 1.5rem;
+  }
+
+  .bmr-sub {
+    display: block;
+    width: 80vw;
+    margin: 0px auto;
+    text-align: center;
+  }
+
+  .bmr-inputs-wrapper {
+    display: block;
+    width: 80vw;
+    margin: 0px auto;
+  }
+
+  .bmr-button {
+    width: 80vw;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .bmr-flex {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .bmr-input {
+    width: 300px;
+  }
+}
