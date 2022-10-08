@@ -363,6 +363,57 @@ th {
   text-align: center;
 }
 
+.workout-page-content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.workout-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 80vw;
+}
+
+.workout {
+  display: flex;
+  width: 300px;
+  height: 300px;
+  background-color: #1d3557;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: white;
+  padding: 0.5rem;
+  margin: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.workout:hover {
+  color: #ffb703;
+  box-shadow: 0px 0px 5px black;
+}
+
+.search-workout {
+  width: 500px;
+  height: 50px;
+  border: 1px solid #1d3557;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: #1d3557;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+
+.workout-img {
+  width: 400px;
+  height: 400px;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 768px) {
   .current-weight-circle {

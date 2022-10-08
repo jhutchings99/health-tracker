@@ -1,6 +1,6 @@
 // URL
-const URL = "https://health-tracker-web-app.herokuapp.com";
-// const URL = "http://localhost:8080";
+// const URL = "https://health-tracker-web-app.herokuapp.com";
+const URL = "http://localhost:8080";
 
 // VUE 2 APP
 var app = new Vue({
@@ -69,6 +69,12 @@ var app = new Vue({
 
         // ERROR VARIABLE
         errorMessage: "",
+
+        // FILTER AND WORKOUT VARIABLES
+        currentUserWorkouts: [],
+        searchInput: "",
+        currentWorkout: "",
+        newReps: "",
     },
     methods: {
         // MATCH PASSWORDS FUNCTION
@@ -124,7 +130,8 @@ var app = new Vue({
                 this.getUser(this.userId);
 
                 // SET PAGE TO WEIGHT
-                this.setPage("weight");
+                // this.setPage("weight");
+                this.setPage("workout");
 
                 // DRAW WEIGHT CHART
                 setTimeout(() => {
@@ -215,6 +222,7 @@ var app = new Vue({
                 this.currentUserName = data.name;
                 this.currentUserAge = data.age;
                 this.currentUserWeights = data.weights;
+                this.currentUserWorkouts = data.workouts;
 
                 if (this.currentUserWeights.length === 0) {
                     this.currentUserWeights.push({
@@ -365,8 +373,12 @@ var app = new Vue({
             setTimeout(() => {
                 this.errorMessage = "";
             }, 3000);
-        }
-        
+        },
+
+        // SET WORKOUT PAGE FUNCTION
+        setWorkoutPage: function () {
+            this.setPage("singleWorkout");
+        },
     },
     created: function () {
         this.getSession();
@@ -397,7 +409,21 @@ var app = new Vue({
             } else {
                 return {'color': '#FF6961'};
             }
-        }
+        },
 
-    }
+        // FILTER WORKOUTS BY NAME
+        filteredWorkouts: function () {
+            var workoutsCopy = [...this.currentUserWorkouts];
+            var searchString = this.searchInput;
+
+            searchString = searchString.trim().toLowerCase();
+            workoutsCopy = workoutsCopy.filter((workout) => {
+                // filter by title
+                if (workout.title.toLowerCase().indexOf(searchString) != -1) {
+                    return workout
+                }
+            })
+            return workoutsCopy;
+        }
+    },
 });

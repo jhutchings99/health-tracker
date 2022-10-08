@@ -303,6 +303,79 @@
                     <div class="workout-page-content-wrapper">
                         <h1 class="welcome-text">hello, {{ currentUserName }}</h1>
                         <h3>Max HR: {{ calculateMaxHeartRate(currentUserAge) }} Target HR:{{ calculateTargetHeartRate(currentUserAge) }}</h3>
+                        <input type="text" placeholder="Search workouts..." v-model="searchInput" class="search-workout">
+                        <div v-show="!searchInput" class="workout-wrapper">
+                            <p v-for="(workout, index) in currentUserWorkouts" class="workout" v-bind:key="index" @click="setWorkoutPage(), currentWorkout = currentUserWorkouts[index]">{{ workout.title }}</p>
+                        </div>
+                        <div v-show="searchInput" class="workout-wrapper">
+                            <p v-for="(workout, index) in filteredWorkouts" class="workout" v-bind:key="index" @click="setWorkoutPage(), currentWorkout = currentUserWorkouts[index]">{{ workout.title }}</p>
+                        </div>
+                    </div>
+                </v-main>
+            </v-app>
+        </section>
+
+        <!-- SINGLE WORKOUT PAGE -->
+        <section id="single-workout-page" v-show="currentPage === 'singleWorkout'">
+            <v-app>
+                <v-main>
+                    <template v-if="!$vuetify.breakpoint.smOnly">
+                        <div>
+                          <v-app-bar
+                            color="#1d3557"
+                            light
+                          >
+                      
+                            <v-toolbar-title :style="{ color: '#f1faee', fontSize: '2rem' }" class="ma-4">
+                                <v-icon color="white" :style="{ color: '#f1faee', fontSize: '2rem' }">mdi-dumbbell</v-icon>
+                                Health Tracker
+                            </v-toolbar-title>
+                      
+                            <v-spacer></v-spacer>
+                      
+                            <v-btn class="ma-4" @click="currentPage = 'weight'">
+                                Weight Tracker
+                              <v-icon>mdi-scale-bathroom</v-icon>
+                            </v-btn>
+                      
+                            <v-btn class="ma-4" @click="currentPage = 'workout'">
+                                Workout Tracker
+                              <v-icon>mdi-weight-lifter</v-icon>
+                            </v-btn>
+                          </v-app-bar>
+                        </div>
+                    </template>
+                    <!-- MOBILE NAV -->
+                    <template v-if="$vuetify.breakpoint.smOnly">
+                        <div>
+                          <v-app-bar color="#1d3557" light fixed>
+                            <v-toolbar-title :style="{ color: '#f1faee', fontSize: '1.5rem' }" class="ma-4">
+                                <v-icon color="white" :style="{ color: '#f1faee', fontSize: '1.5rem' }">mdi-dumbbell</v-icon>
+                                Health Tracker
+                            </v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
+                            <v-navigation-drawer v-model="drawer" absolute  height="100vh" width="100vw">
+                                <v-icon  @click.stop="drawer = !drawer" class="float-right ma-5 black--text">mdi-window-close</v-icon>
+                                <div class="mobile-nav-buttons">
+                                    <v-btn class="ma-4" @click="currentPage = 'weight', drawer = !drawer">
+                                        Weight Tracker
+                                    <v-icon>mdi-scale-bathroom</v-icon>
+                                    </v-btn>
+                                    <v-btn class="ma-4" @click="currentPage = 'workout', drawer = !drawer">
+                                        Workout Tracker
+                                    <v-icon>mdi-weight-lifter</v-icon>
+                                </div>
+                            </v-navigation-drawer>
+                          </v-app-bar>
+                        </div>
+                    </template>
+                    <div class="workout-page-content-wrapper">
+                        <h1>{{ currentWorkout.title }}</h1>
+                        <img :src="currentWorkout.gif" alt="gif showing how to do a workout" class="workout-img">
+                        <input type="text" v-model="newReps" placeholder="Enter Reps...">
+                        <button>Submit Reps</button>
+                        <p>{{ currentWorkout.reps }}</p>
                     </div>
                 </v-main>
             </v-app>
